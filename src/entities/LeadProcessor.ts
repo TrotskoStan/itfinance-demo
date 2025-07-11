@@ -3,6 +3,13 @@ import type { Lead } from '../types/common.js';
 import { CsvLogger } from '../logger/CsvLogger.js';
 import { formatDateTime } from '../utils/DateTime.js';
 
+//** Класс обработки заявок.
+// Имееет метод processLeads котрый принимает массив заявок на обрабоку.
+// Выполняет параллельно несколько заявок, ограниченный параметром limit.
+// Если какая то из задач завершается с ощибкой то результат не пишется в лог,
+// но другие заявки продолжают выполняться.
+//  */
+
 export class LeadProcessor {
   private logger: CsvLogger;
   private limit: number;

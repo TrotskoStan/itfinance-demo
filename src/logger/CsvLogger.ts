@@ -1,12 +1,8 @@
-// import { appendFile } from 'fs/promises';
-// import { mkdirSync, existsSync, readFile, writeFile } from 'fs';
-import { join } from 'path';
-//import { Lead } from '../types/common.js';
-import { formatDateTime } from '../utils/DateTime.js';
-
 import { readFile, writeFile, appendFile } from 'fs/promises';
 import { access } from 'fs/promises';
 import { existsSync, mkdirSync } from 'fs';
+import { join } from 'path';
+import { formatDateTime } from '../utils/DateTime.js';
 
 //** Класс для логгирования заявок - записи в CSV файл */
 export class CsvLogger {
