@@ -1,24 +1,23 @@
-const tsPlugin = require("@typescript-eslint/eslint-plugin");
-const tsParser = require("@typescript-eslint/parser");
+import tsParser from '@typescript-eslint/parser';
+import tsPlugin from '@typescript-eslint/eslint-plugin';
 
-/** @type {import("eslint").Linter.Config[]} */
-module.exports = [
-  {
-    files: ["**/*.ts", "**/*.js"],
-    languageOptions: {
-      parser: tsParser,
-      parserOptions: {
-        ecmaVersion: 2020,
-        sourceType: "module",
-      },
-    },
-    plugins: {
-      "@typescript-eslint": tsPlugin,
-    },
-    rules: {
-      "prefer-const": "warn",
-      "@typescript-eslint/no-unused-vars": "warn",
-      "no-multiple-empty-lines": ["error", { "max": 1 }]
+/** @type {import("eslint").Linter.Config} */
+export default {
+  files: ['src/**/*.{ts,js}'],
+  languageOptions: {
+    parser: tsParser,
+    parserOptions: {
+      sourceType: 'module',
+      ecmaVersion: 'latest',
+      project: './tsconfig.json',
     },
   },
-];
+  plugins: {
+    '@typescript-eslint': tsPlugin,
+  },
+  rules: {
+    "prefer-const": "warn",
+    "@typescript-eslint/no-unused-vars": "warn",
+    "no-multiple-empty-lines": ["error", { "max": 1 }]
+  },
+};
