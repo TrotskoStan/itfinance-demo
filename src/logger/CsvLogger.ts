@@ -1,8 +1,12 @@
-import { appendFile } from 'fs/promises';
-import { mkdirSync, existsSync } from 'fs';
+// import { appendFile } from 'fs/promises';
+// import { mkdirSync, existsSync, readFile, writeFile } from 'fs';
 import { join } from 'path';
-import { Lead } from '../types/common.js';
+//import { Lead } from '../types/common.js';
 import { formatDateTime } from '../utils/DateTime.js';
+
+import { readFile, writeFile, appendFile } from 'fs/promises';
+import { access } from 'fs/promises';
+import { existsSync, mkdirSync } from 'fs';
 
 //** Класс для логгирования заявок - записи в CSV файл */
 export class CsvLogger {
@@ -22,18 +26,32 @@ export class CsvLogger {
   }
 
   async log(
-    lead: Lead,
-    datetime: string,
-    config: { logLeadData?: boolean } = {},
+    fields: (string | number | boolean)[],
+    options: { addToTop?: boolean } = {},
   ): Promise<void> {
-    const { logLeadData = false } = config;
-    const { id, category, payload } = lead;
+    const { addToTop = false } = options;
 
-    const leadData = logLeadData ? `,${payload.data}` : '';
-    const line = `${id},${category},${datetime}${leadData}\n`;
+    const line =
+      fields
+        .map((field) => {
+          const str = String(field);
+          return str.includes(',') || str.includes('"')
+            ? `"${str.replace(/"/g, '""')}"`
+            : str;
+        })
+        .join(',') + '\n';
 
     try {
-      await appendFile(this.filePath, line, 'utf8');
+      if (addToTop) {
+        let existing = '';
+        try {
+          await access(this.filePath);
+          existing = await readFile(this.filePath, 'utf8');
+        } catch {}
+        await writeFile(this.filePath, line + existing, 'utf8');
+      } else {
+        await appendFile(this.filePath, line, 'utf8');
+      }
     } catch (error) {
       console.error('Failed to write log:', error);
     }
