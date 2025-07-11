@@ -1,4 +1,4 @@
-import { Category, Lead, Payload } from '../types/common';
+import { Category, Lead, Payload } from '../types/common.js';
 import { LeadGeneratorBase } from './LeadGeneratorBase.js';
 import { randomUUID } from 'crypto';
 
