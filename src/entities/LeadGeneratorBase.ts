@@ -1,9 +1,10 @@
 import { Lead } from '../types/common.js';
 
-//** Базовый абстрактный класс генератора заявок.
-// Не уверен если этот класс нам нужен но в задании требуется
-// использовать ООП с абстрактным классом
-//  */
+/**
+ * Base abstract class for lead generators.
+ * I'm not sure if this class is necessary, but the task requires
+ * using OOP with an abstract class.
+ */
 
 export abstract class LeadGeneratorBase {
   abstract generate(): Lead;

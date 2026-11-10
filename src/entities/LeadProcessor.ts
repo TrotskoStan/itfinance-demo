@@ -3,12 +3,12 @@ import type { Lead } from '../types/common.js';
 import { CsvLogger } from '../logger/CsvLogger.js';
 import { formatDateTime } from '../utils/DateTime.js';
 
-//** Класс обработки заявок.
-// Имееет метод processLeads котрый принимает массив заявок на обрабоку.
-// Выполняет параллельно несколько заявок, ограниченный параметром limit.
-// Если какая то из задач завершается с ощибкой то результат не пишется в лог,
-// но другие заявки продолжают выполняться.
-//  */
+/**
+ * Class for processing leads.
+ * Provides a processLeads method that accepts an array of leads to process.
+ * Processes multiple leads in parallel, with concurrency limited by the `limit` parameter.
+ * If any task fails, its result is not logged, but the other leads continue processing.
+ */
 
 export class LeadProcessor {
   private logger: CsvLogger;
@@ -28,15 +28,15 @@ export class LeadProcessor {
           const datetime = formatDateTime(new Date());
           const { id, category } = lead;
 
-          //Тестировал если какие то заявки упадут
+          // Tested what happens when some leads fail.
           //
-          // if (id === 20 || id === 21 || id === 24 || id === 50 ) {
-          //   await Promise.reject(id)
+          // if (id === 20 || id === 21 || id === 24 || id === 50) {
+          //   await Promise.reject(id);
           // } else {
-          // await new Promise((resolve) => setTimeout(resolve, 2000));
+          //   await new Promise((resolve) => setTimeout(resolve, 2000));
           // }
 
-          // «засыпаем» на 2 секунды (эмуляция тяжёлой операции)
+          // Wait for 2 seconds (simulating a long-running operation).
           await new Promise((resolve) => setTimeout(resolve, 2000));
           await this.logger.log([id, category, datetime]);
         } catch (e) {

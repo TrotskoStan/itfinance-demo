@@ -1,62 +1,73 @@
 # IT Finance Demo
 
-Тестовое задание для IT Finance (JavaScript / Node.js).  
-**Цель:** разработать простую систему обработки клиентских заявок (лидов) на Node.js.
+Technical assignment for IT Finance (JavaScript / Node.js).
 
-## 📦 Установка
+**Goal:** Develop a simple client lead processing system using Node.js.
 
-Установка не требуется — достаточно иметь предустановленный **Docker** на локальной машине.
+## 📦 Installation
 
-## 🚀 Запуск
+No installation is required. You only need to have **Docker** installed on your local machine.
 
-1. Клонируйте репозиторий:
+## 🚀 Getting Started
+
+1. Clone the repository:
+
    ```bash
    git clone https://github.com/TrotskoStan/itfinance-demo.git
    cd itfinance-demo
    ```
 
-2. Запустите проект:
+2. Start the project:
+
    ```bash
    docker-compose up --build
    ```
 
-### Что происходит при запуске:
+### What happens when you start the application?
 
-1. Приложение собирается и запускается в Docker-контейнере на локальной машине.
-2. Результаты работы скрипта записываются в директорию `output`, например:  
-   `./output/log_2025-07-11 15:46:08.csv`  
-   Лог-файл появится прямо в корневой папке проекта на хосте.
+1. The application is built and launched in a Docker container on your local machine.
+2. The script output is saved to the `output` directory, for example:
 
-## ⚙️ Логика работы
+   `./output/log_2025-07-11 15:46:08.csv`
 
-1. С помощью класса `LeadGenerator.ts` скрипт создает 10,000 заявок (количество можно настроить в `index.ts` через `TOTAL_LEADS`).
-2. Определяется количество одновременно обрабатываемых заявок (параметр `ASYNC_LIMIT` в `index.ts`).
-3. Скрипт передаёт список заявок и лимит параллельной обработки в `LeadProcessor.ts`.
-4. `LeadProcessor.ts` обрабатывает заявки с учётом ограничения и записывает успешные в лог-файл. Если обработка завершилась неудачно — ошибка выводится в консоль, но не попадает в лог.
-5. Для тестирования можно изменить параметры `TOTAL_LEADS` и `ASYNC_LIMIT`, затем перезапустить приложение командой:
+   The log file will appear directly in the project's root directory on the host machine.
+
+## ⚙️ How It Works
+
+1. The `LeadGenerator.ts` class generates 10,000 leads (the number can be configured in `index.ts` using `TOTAL_LEADS`).
+2. The number of leads to be processed simultaneously is defined (the `ASYNC_LIMIT` parameter in `index.ts`).
+3. The script passes the list of leads and the concurrency limit to `LeadProcessor.ts`.
+4. `LeadProcessor.ts` processes the leads while respecting the concurrency limit and writes successfully processed leads to a log file. If processing fails, the error is printed to the console but is not written to the log.
+5. For testing, you can change the `TOTAL_LEADS` and `ASYNC_LIMIT` parameters and restart the application using:
+
    ```bash
    docker-compose up --build
    ```
-   Каждый запуск создаёт новый лог-файл на хосте с результатами.
-6. После завершения обработки в **начало** лог-файла добавляется строка с итогом:
-   ```
+
+   Each run creates a new log file on the host machine containing the results.
+6. Once processing is complete, a summary line is added at the **beginning** of the log file:
+
+   ```text
    Records: 10000, AsyncLimit: 34, TimeTotal: 9min 53sec
    ```
-   Это позволяет оценить производительность при различных параметрах.  
-   Пример лог-файла находится в `./output`.
 
-## ⏱ Требования по времени
+   This allows you to evaluate performance with different settings. An example log file is available in `./output`.
 
-Согласно заданию необходимо обработать 10,000 заявок менее чем за 10 минут.  
-Поскольку одна заявка обрабатывается за 2 секунды, требуется минимум 34 параллельных обработчика (`ASYNC_LIMIT = 34`), чтобы уложиться во временные рамки. Результаты работы обработчика с указанными параметрами можно посмотреть прямо на GitHub, в корне проекта в директории `output`.
+## ⏱ Performance Requirements
 
-## ✅ Выполнение требований задания
+According to the assignment requirements, 10,000 leads must be processed in less than 10 minutes.
 
-| Требование                                                                 | Статус                                       |
-|----------------------------------------------------------------------------|----------------------------------------------|
-| Node.js ≥ 18, чистый JavaScript (ES Modules)                              | ✅ Выполнено (используется Node.js v24 (ES Modules))       |
-| ООП-подход (классы, интерфейсы / абстрактные классы)                      | ✅ Выполнено                                  |
-| Без серверных фреймворков; разрешены небольшие npm-библиотеки (например `p-limit`) | ✅ Выполнено (используется `p-limit`)        |
-| Docker (Dockerfile + docker-compose.yml), запуск одной командой          | ✅ Выполнено                                  |
-| Кодстайл: ESLint + Prettier                                               | ✅ Выполнено (добавлены и настроены)          |
-| Типизация: JSDoc или TypeScript                                           | ✅ Выполнено (используется TypeScript)        |
+Since each lead takes 2 seconds to process, at least 34 concurrent workers are required to meet the time limit (`ASYNC_LIMIT = 34`).
+
+The results of running the processor with these settings can be found directly on GitHub, in the project's root directory under `output`.
+
+## ✅ Assignment Requirements Checklist
+
+| Requirement | Status |
+|---|---|
+| Node.js ≥ 18, pure JavaScript (ES Modules) | ✅ Completed (Node.js v24, ES Modules) |
+| OOP approach (classes, interfaces / abstract classes) | ✅ Completed |
+| No server-side frameworks; small npm libraries allowed (e.g. `p-limit`) | ✅ Completed (`p-limit` is used) |
+| Docker (Dockerfile + docker-compose.yml), single-command startup | ✅ Completed |
+| Code style: ESLint + Prettier | ✅ Completed (both configured) |
+| Type safety: JSDoc or TypeScript | ✅ Completed (TypeScript is used) |

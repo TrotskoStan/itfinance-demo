@@ -4,7 +4,9 @@ import { existsSync, mkdirSync } from 'fs';
 import { join } from 'path';
 import { formatDateTime } from '../utils/DateTime.js';
 
-//** Класс для логгирования заявок - записи в CSV файл */
+/**
+ * Class for logging leads by writing them to a CSV file.
+ */
 export class CsvLogger {
   private filePath: string;
 
@@ -43,7 +45,7 @@ export class CsvLogger {
         try {
           await access(this.filePath);
           existing = await readFile(this.filePath, 'utf8');
-        } catch {}
+        } catch { }
         await writeFile(this.filePath, line + existing, 'utf8');
       } else {
         await appendFile(this.filePath, line, 'utf8');

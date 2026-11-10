@@ -2,9 +2,10 @@ import { Category, Lead, Payload } from '../types/common.js';
 import { LeadGeneratorBase } from './LeadGeneratorBase.js';
 import { randomUUID } from 'crypto';
 
-//** Класс для генерации отдельной заявки - Lead
-//   Категория заявки и данные назначаются случайным образом
-//  */
+/**
+ * Class for generating an individual Lead.
+ * The lead category and data are assigned randomly.
+ */
 export class LeadGenerator extends LeadGeneratorBase {
   private categories: Category[];
   private idCounter: number;
